@@ -43,5 +43,19 @@ function merge_branch (){
 	git merge "$select"
 }
 
+function delete_branch () {
+	
+	trap exit_exception SIGINT
 
-merge_branch
+	select=$(git branch | fzf +m \
+		--heght 40% \
+		--layout reverse \
+		--border\
+		--preview 'git log --oneline $(echo {} tr -d "* ")' \
+		--color bg:#776644,preview-bg:#446655)
+
+	git branch -d "$select"
+}
+
+delete_branch
+
