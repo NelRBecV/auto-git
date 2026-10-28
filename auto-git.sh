@@ -1,6 +1,15 @@
 #!/bin/bash
 
 
+function exit_exception () {
+
+	# This if-statement won't work
+	if [ $? -eq 130 ]; then
+        	echo "Exiting..."
+	fi
+
+}
+
 function switch_branch () {
 	select=$(git branch | fzf \
 		--height 40% \
@@ -9,11 +18,7 @@ function switch_branch () {
 		--preview 'git log --oneline $(echo {} | tr -d "* ")' \
 		--color bg:#776644,preview-bg:#446655)
 
-	 # This if-statement won't work
-        if [ $? -eq 130 ]; then
-                echo "Exiting..."
-        fi
-
+	exit_exception
 
 
 	select=$(echo "$select" | tr -d "* ")
