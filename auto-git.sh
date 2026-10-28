@@ -4,13 +4,20 @@
 function exit_exception () {
 
 	# This if-statement won't work
-	if [ $? -eq 130 ]; then
-        	echo "Exiting..."
-	fi
+	#if [ $? -eq 130 ]; then
+        #	echo "Exiting..."
+	#fi
+
+	echo "Exiting..."
+	exit 1
 
 }
 
 function switch_branch () {
+
+	 trap exit_exception SIGINT
+
+
 	select=$(git branch | fzf \
 		--height 40% \
 		--layout reverse \
@@ -18,18 +25,13 @@ function switch_branch () {
 		--preview 'git log --oneline $(echo {} | tr -d "* ")' \
 		--color bg:#776644,preview-bg:#446655)
 
-	exit_exception
-
-
-	select=$(echo "$select" | tr -d "* ")
-
-
-
 	git switch "$select"
 
 }
 
 function merge_branch (){
+
+	trap exit_exception SIGINT
 
 	select=$(git branch | fzf +m \
 		--height 100% \
@@ -37,8 +39,6 @@ function merge_branch (){
 		--border\
 		--preview 'git log --oneline $(echo {} | tr -d "* ")' \
 		--color bg:#776644,preview-bg:#446655)
-
-	exit_exception
 
 	git merge "$select"
 }
