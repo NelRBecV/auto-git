@@ -29,4 +29,19 @@ function switch_branch () {
 
 }
 
-switch_branch
+function merge_branch (){
+
+	select=$(git branch | fzf +m \
+		--height 100% \
+		--layout reverse \
+		--border\
+		--preview 'git log --oneline $(echo {} | tr -d "* ")' \
+		--color bg:#776644,preview-bg:#446655)
+
+	exit_exception
+
+	git merge "$select"
+}
+
+
+merge_branch
