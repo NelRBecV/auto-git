@@ -58,6 +58,8 @@ function delete_branch () {
 		--preview 'git log --oneline $(echo {} | tr -d "* ")' \
 		--color bg:#776644,preview-bg:#446655)
 
+	select=$(echo "$select" | tr -d "* ")
+
 	git branch -d "$select"
 }
 
