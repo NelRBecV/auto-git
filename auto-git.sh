@@ -25,6 +25,8 @@ function switch_branch () {
 		--preview 'git log --oneline $(echo {} | tr -d "* ")' \
 		--color bg:#776644,preview-bg:#446655)
 
+	select=$(echo "$select" | tr -d "* ")
+
 	git switch "$select"
 
 }
@@ -39,6 +41,8 @@ function merge_branch (){
 		--border\
 		--preview 'git log --oneline $(echo {} | tr -d "* ")' \
 		--color bg:#776644,preview-bg:#446655)
+
+	select=$(echo "$select" | tr -d "* ")
 
 	git merge "$select"
 }
