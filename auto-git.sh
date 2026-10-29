@@ -61,5 +61,5 @@ function delete_branch () {
 	git branch -d "$select"
 }
 
-delete_branch
+merge_branch
 
