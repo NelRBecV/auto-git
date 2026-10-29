@@ -48,10 +48,10 @@ function delete_branch () {
 	trap exit_exception SIGINT
 
 	select=$(git branch | fzf +m \
-		--heght 40% \
+		--height 40% \
 		--layout reverse \
 		--border\
-		--preview 'git log --oneline $(echo {} tr -d "* ")' \
+		--preview 'git log --oneline $(echo {} | tr -d "* ")' \
 		--color bg:#776644,preview-bg:#446655)
 
 	git branch -d "$select"
