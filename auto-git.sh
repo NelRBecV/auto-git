@@ -63,5 +63,45 @@ function delete_branch () {
 	git branch -d "$select"
 }
 
-delete_branch
+function main () {
+
+	trap exit_ecception SIGINT
+
+	opt_menu=("1 - Switch branch"\
+		  "2 - Merge"\
+		  "3 - Delete branch"\
+		  "Exit")
+
+	sel_menu=$(for opt in "${opt_menu[@]}"; do echo "$opt"; done | fzf +m \
+			--height 40% \
+			--layout reverse \
+			--border\
+			--color bg:#776644\
+		)
+
+
+	case "$sel_menu" in ${opt_menu[0]})
+		echo "$sel_menu"
+		switch_branch
+		exit 0
+		;;
+
+  	      ${opt_menu[1]})
+		echo "$sel_menu"
+		merge_branch
+		exit 0
+		;;
+	      ${opt_menu[2]})
+		echo "$sel_menu"
+		delete_branch
+		exit 0
+		;;
+	     *)
+	     	echo "$sel_menu"
+	     	exit 0
+	
+	esac
+}
+
+main
 
