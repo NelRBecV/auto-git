@@ -15,8 +15,7 @@ function exit_exception () {
 
 function switch_branch () {
 
-	 trap exit_exception SIGINT
-
+	trap exit_exception SIGINT
 
 	select=$(git branch | fzf \
 		--height 40% \
@@ -63,5 +62,50 @@ function delete_branch () {
 	git branch -d "$select"
 }
 
-merge_branch
+function main () {
 
+	opt_menu=("1 - Switch branch" \
+		  "2 - Merge branch" \
+	   	  "3 - Delete branch" \
+	   	  "Exit")
+	
+	trap exit_exception SIGINT
+	
+	sel_menu=$(for selection in "${opt_menu[@]}"; do echo "$selection"; done | fzf +m \
+			--color bg:#776644 \
+			--height 40% \
+			--layout reverse \
+			--border)
+
+	case "$sel_menu" in 
+	    ${opt_menu[0]})
+		echo "$sel_menu"
+		switch_branch
+		exit 0
+		;;
+
+	    ${opt_menu[1]})
+		echo "$sel_menu"
+		merge_branch
+		exit 0
+		;;
+
+	    ${opt_menu[2]})
+	     	echo "$sel_menu"
+		delete_branch
+		exit 0
+		;;
+
+	    ${opt_menu[3]})
+		echo "$sel_menu"
+		exit 0
+		;;
+
+	     *)
+	     exit 0
+	     ;;
+
+	esac
+}
+
+main
